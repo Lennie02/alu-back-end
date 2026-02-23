@@ -9,10 +9,12 @@ if __name__ == "__main__":
     employee_id = int(sys.argv[1])
     base_url = "https://jsonplaceholder.typicode.com"
 
-    with urllib.request.urlopen("{}/users/{}".format(base_url, employee_id)) as response:
+    user_url = "{}/users/{}".format(base_url, employee_id)
+    with urllib.request.urlopen(user_url) as response:
         user = json.loads(response.read().decode("utf-8"))
 
-    with urllib.request.urlopen("{}/todos?userId={}".format(base_url, employee_id)) as response:
+    todos_url = "{}/todos?userId={}".format(base_url, employee_id)
+    with urllib.request.urlopen(todos_url) as response:
         todos = json.loads(response.read().decode("utf-8"))
 
     employee_name = user.get("name")
@@ -20,7 +22,8 @@ if __name__ == "__main__":
     total = len(todos)
     done = len(done_tasks)
 
-    print("Employee {} is done with tasks({}/{}):".format(employee_name, done, total))
+    print("Employee {} is done with tasks({}/{}):".format(
+        employee_name, done, total))
     for task in done_tasks:
         print("\t {}".format(task.get("title")))
 
